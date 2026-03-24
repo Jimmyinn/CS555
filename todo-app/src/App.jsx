@@ -1,121 +1,70 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState, useEffect } from "react";
+import TodoInput from "./components/TodoInput";
+import TodoList from "./components/TodoList";
+import TodoFilter from "./components/TodoFilter";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [todos, setTodos] = useState(() => {
+    const saved = localStorage.getItem("todos");
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [filter, setFilter] = useState("all");
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
+  function addTodo(text, description = "") {
+    if (!text.trim()) return;
+    setTodos([...todos, { id: Date.now(), text: text.trim(), description: description.trim(), completed: false }]);
+  }
+
+  function toggleTodo(id) {
+    setTodos(todos.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)));
+  }
+
+  function deleteTodo(id) {
+    setTodos(todos.filter((t) => t.id !== id));
+  }
+
+  function clearCompleted() {
+    setTodos(todos.filter((t) => !t.completed));
+  }
+
+  const filtered = todos.filter((t) => {
+    if (filter === "active") return !t.completed;
+    if (filter === "completed") return t.completed;
+    return true;
+  });
+
+  const activeCount = todos.filter((t) => !t.completed).length;
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app">
+      <div className="container">
+        <header className="header">
+          <span className="header-tag">YOUR</span>
+          <h1 className="title">TASKS</h1>
+          <span className="header-count">{activeCount} remaining</span>
+        </header>
 
-      <div className="ticks"></div>
+        <TodoInput onAdd={addTodo} />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        <TodoFilter filter={filter} onFilter={setFilter} />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        <TodoList
+          todos={filtered}
+          onToggle={toggleTodo}
+          onDelete={deleteTodo}
+        />
+
+        {todos.some((t) => t.completed) && (
+          <button className="clear-btn" onClick={clearCompleted}>
+            Clear completed
+          </button>
+        )}
+      </div>
+    </div>
+  );
 }
-
-export default App
