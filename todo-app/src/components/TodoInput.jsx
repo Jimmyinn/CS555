@@ -16,7 +16,6 @@ export default function TodoInput({ onAdd }) {
 
     function handleFormBlur(e) {
         if (!e.currentTarget.contains(e.relatedTarget)) {
-            setDescription("");
             setExpanded(false);
         }
     }
