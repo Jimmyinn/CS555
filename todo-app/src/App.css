@@ -44,11 +44,10 @@ body {
 
 /* Header */
 .header {
-  display: flex;
+  display: block;
   align-items: baseline;
   gap: 16px;
-  margin-bottom: 32px;
-  border-bottom: 3px solid var(--accent);
+  margin-bottom: 12px;
   padding-bottom: 12px;
 }
 
@@ -74,6 +73,39 @@ body {
   color: var(--muted);
   letter-spacing: 0.1em;
   white-space: nowrap;
+}
+
+.header-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 3px solid var(--accent);
+  margin-bottom: 16px;
+}
+
+.header-bottom {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.header-buttons button {
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 6px 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s;
+}
+
+.header-buttons button:hover {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
 /* Input */
@@ -326,4 +358,50 @@ body {
 .clear-btn:hover {
   border-color: #e53935;
   color: #e53935;
+}
+
+/* Settings Page */
+.settings-card {
+  margin-top: 24px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: 0 2px 10px var(--shadow);
+}
+
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ================= DARK THEME ================= */
+
+[data-theme="dark"] {
+  --bg: #0a141c;
+  --surface: #0f1f2b;
+  --ink: #e6f1fb;
+
+  --accent: #5fb3ff;
+  --accent-light: #163a5a;
+  --accent-dark: #8cc8ff;
+
+  --muted: #5f8aa6;
+  --line: #183246;
+  --done: #3e5f73;
+
+  --shadow: rgba(0, 0, 0, 0.35);
+}
+
+/* Fix background glow for dark mode */
+[data-theme="dark"] body {
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(95, 179, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(95, 179, 255, 0.05) 0%, transparent 50%);
+}
+
+/* Slight tweak so completed todos don’t look too bright */
+[data-theme="dark"] .todo-item.completed {
+  background: #0c1822;
 }

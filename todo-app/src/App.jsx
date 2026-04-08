@@ -2,19 +2,42 @@ import { useState, useEffect } from "react";
 import TodoInput from "./components/TodoInput";
 import TodoList from "./components/TodoList";
 import TodoFilter from "./components/TodoFilter";
+
+import TodoExport from "./components/configBar/TodoExport";
+import TodoImport from "./components/configBar/TodoImport";
+import TodoSettings from "./components/configBar/TodoSettings";
+
+import SettingsPage from "./components/SettingsPage";
+
 import "./App.css";
 
 export default function App() {
+  // App state
   const [todos, setTodos] = useState(() => {
     const saved = localStorage.getItem("todos");
     return saved ? JSON.parse(saved) : [];
   });
   const [filter, setFilter] = useState("all");
 
+  // Additional state (Sebastian)
+  const [page, setPage] = useState(() => {return "main";});
+
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("theme") || "light";
+  });
+
+  // Browser Data Saves
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+  
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
+  // Todo helpers
   function addTodo(text, description = "") {
     if (!text.trim()) return;
     setTodos([...todos, { id: Date.now(), text: text.trim(), description: description.trim(), completed: false }]);
@@ -32,6 +55,7 @@ export default function App() {
     setTodos(todos.filter((t) => !t.completed));
   }
 
+  // Other variables
   const filtered = todos.filter((t) => {
     if (filter === "active") return !t.completed;
     if (filter === "completed") return t.completed;
@@ -40,30 +64,51 @@ export default function App() {
 
   const activeCount = todos.filter((t) => !t.completed).length;
 
+  // Main
   return (
     <div className="app">
       <div className="container">
         <header className="header">
-          <span className="header-tag">YOUR</span>
-          <h1 className="title">TASKS</h1>
-          <span className="header-count">{activeCount} remaining</span>
+          <div className="header-top">
+            <span className="header-tag">YOUR</span>
+            <h1 className="title">TASKS</h1>
+            <span className="header-count">{activeCount} remaining</span>
+          </div>
+
+          <div className="header-bottom">
+            <div className="header-buttons">
+              <TodoExport todos={todos}/>
+              <TodoImport setTodos={setTodos}/>
+              <TodoSettings openSettings={() => setPage(page === "main" ? "settings" : "main")}/>
+            </div>
+          </div>
         </header>
+        
+        {page === "main" ? (
+        <>
+          <TodoInput onAdd={addTodo} />
 
-        <TodoInput onAdd={addTodo} />
+          <TodoFilter filter={filter} onFilter={setFilter} />
 
-        <TodoFilter filter={filter} onFilter={setFilter} />
+          <TodoList
+            todos={filtered}
+            onToggle={toggleTodo}
+            onDelete={deleteTodo}
+          />
 
-        <TodoList
-          todos={filtered}
-          onToggle={toggleTodo}
-          onDelete={deleteTodo}
+          {todos.some((t) => t.completed) && (
+            <button className="clear-btn" onClick={clearCompleted}>
+              Clear completed
+            </button>
+          )}
+        </>
+        ) : (
+          <SettingsPage
+          theme={theme}
+          setTheme={setTheme}
+          goBack={() => setPage("main")}
         />
-
-        {todos.some((t) => t.completed) && (
-          <button className="clear-btn" onClick={clearCompleted}>
-            Clear completed
-          </button>
-        )}
+      )}
       </div>
     </div>
   );
