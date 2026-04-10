@@ -50,7 +50,7 @@ src/
 │   ├── configBar
 │        ├── TodoExport.jsx      - Export functionality
 │        ├── TodoImport.jsx      - Import functionality
-│        ├── TodoSettings.jsx    - Setting to swap themes
+│        └── TodoSettings.jsx    - Setting to swap themes
 │   ├── TodoFilter.jsx    - Filter button component (All/Active/Completed)
 │   ├── TodoInput.jsx     - Input form for adding new tasks
 │   ├── TodoItem.jsx      - Individual task item component
