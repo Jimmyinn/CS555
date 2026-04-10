@@ -47,6 +47,10 @@ The application will be available at `http://localhost:5173` in your browser.
 ```
 src/
 ├── components/
+│   ├── configBar
+│        ├── TodoExport.jsx      - Export functionality
+│        ├── TodoImport.jsx      - Import functionality
+│        ├── TodoSettings.jsx    - Setting to swap themes
 │   ├── TodoFilter.jsx    - Filter button component (All/Active/Completed)
 │   ├── TodoInput.jsx     - Input form for adding new tasks
 │   ├── TodoItem.jsx      - Individual task item component
