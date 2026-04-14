@@ -327,6 +327,107 @@ body {
   color: #e53935;
 }
 
+.edit-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  color: var(--accent);
+}
+
+/* Edit Mode */
+.todo-item.editing {
+  padding: 16px;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.edit-input {
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--accent-light);
+  border-radius: 2px;
+  outline: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.edit-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.edit-textarea {
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--accent-light);
+  border-radius: 2px;
+  outline: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  resize: vertical;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  line-height: 1.6;
+}
+
+.edit-textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.edit-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.save-btn,
+.cancel-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-transform: uppercase;
+}
+
+.save-btn {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.save-btn:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+}
+
+.cancel-btn {
+  background: transparent;
+  color: var(--muted);
+}
+
+.cancel-btn:hover {
+  color: var(--ink);
+  border-color: var(--muted);
+}
+
 /* Empty state */
 .empty {
   text-align: center;
@@ -404,4 +505,16 @@ body {
 /* Slight tweak so completed todos don’t look too bright */
 [data-theme="dark"] .todo-item.completed {
   background: #0c1822;
+}
+[data-theme="dark"] .edit-input,
+[data-theme="dark"] .edit-textarea {
+  background: #0f1f2b;
+  border-color: #163a5a;
+  color: #e6f1fb;
+}
+
+[data-theme="dark"] .edit-input:focus,
+[data-theme="dark"] .edit-textarea:focus {
+  border-color: #5fb3ff;
+  box-shadow: 0 0 0 3px rgba(95, 179, 255, 0.1);
 }
