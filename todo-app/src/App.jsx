@@ -51,6 +51,10 @@ export default function App() {
     setTodos(todos.filter((t) => t.id !== id));
   }
 
+  function editTodo(id, text, description) {
+    setTodos(todos.map((t) => (t.id === id ? { ...t, text: text.trim(), description: description.trim() } : t)));
+  }
+
   function clearCompleted() {
     setTodos(todos.filter((t) => !t.completed));
   }
@@ -94,6 +98,7 @@ export default function App() {
             todos={filtered}
             onToggle={toggleTodo}
             onDelete={deleteTodo}
+            onEdit={editTodo}
           />
 
           {todos.some((t) => t.completed) && (
