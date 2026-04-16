@@ -3,8 +3,6 @@ import TodoInput from "./components/TodoInput";
 import TodoList from "./components/TodoList";
 import TodoFilter from "./components/TodoFilter";
 
-import TodoExport from "./components/configBar/TodoExport";
-import TodoImport from "./components/configBar/TodoImport";
 import TodoSettings from "./components/configBar/TodoSettings";
 
 import SettingsPage from "./components/SettingsPage";
@@ -72,6 +70,7 @@ export default function App() {
   return (
     <div className="app">
       <div className="container">
+        {page === "main" && (
         <header className="header">
           <div className="header-top">
             <span className="header-tag">YOUR</span>
@@ -81,12 +80,11 @@ export default function App() {
 
           <div className="header-bottom">
             <div className="header-buttons">
-              <TodoExport todos={todos}/>
-              <TodoImport setTodos={setTodos}/>
               <TodoSettings openSettings={() => setPage(page === "main" ? "settings" : "main")}/>
             </div>
           </div>
         </header>
+        )}
         
         {page === "main" ? (
         <>
@@ -109,10 +107,12 @@ export default function App() {
         </>
         ) : (
           <SettingsPage
-          theme={theme}
-          setTheme={setTheme}
-          goBack={() => setPage("main")}
-        />
+            theme={theme}
+            setTheme={setTheme}
+            goBack={() => setPage("main")}
+            todos={todos}
+            setTodos={setTodos}
+          />
       )}
       </div>
     </div>
