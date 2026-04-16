@@ -8,7 +8,9 @@ export default function SettingsPage({ theme, setTheme, goBack, todos, setTodos 
 
     return (
         <>
-            <h1 className="title">SETTINGS</h1>
+            <div className="header-top">
+                <h1 className="title">SETTINGS</h1>
+            </div>
             <button className="clear-btn" onClick={goBack}>
                 Back
             </button>
@@ -24,8 +26,8 @@ export default function SettingsPage({ theme, setTheme, goBack, todos, setTodos 
                 <div className="settings-row">
                     <span>Data</span>
                     <div className="settings-buttons">
-                        <TodoExport todos={todos}/>
-                        <TodoImport setTodos={setTodos}/>
+                        <TodoExport todos={todos} />
+                        <TodoImport setTodos={setTodos} />
                     </div>
                 </div>
             </div>
