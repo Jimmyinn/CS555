@@ -10,7 +10,17 @@ export default function TodoImport({setTodos}) {
   
       reader.onload = (e) => {
         try {
-          setTodos(JSON.parse(e.target.result));
+          const parsed = JSON.parse(e.target.result);
+          
+          const normalized = parsed.map((t) => ({
+            id: t.id ?? Date.now(),
+            text: t.text ?? "",
+            description: t.description ?? "",
+            completed: t.completed ?? false,
+            tags: t.tags ?? [],
+          }));
+
+          setTodos(normalized);
         } catch {
           alert("Invalid file provided!");
         }

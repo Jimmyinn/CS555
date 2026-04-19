@@ -4,7 +4,9 @@ import TodoList from "./components/TodoList";
 import TodoFilter from "./components/TodoFilter";
 
 import TodoSettings from "./components/configBar/TodoSettings";
+import TodoAbout from "./components/configBar/TodoAbout";
 
+import AboutPage from "./components/AboutPage";
 import SettingsPage from "./components/SettingsPage";
 
 import "./App.css";
@@ -24,6 +26,9 @@ export default function App() {
     return localStorage.getItem("theme") || "light";
   });
 
+  // Tag state (Sebastian)
+  const [activeTag, setActiveTag] = useState(null);
+
   // Browser Data Saves
   useEffect(() => {
     localStorage.setItem("theme", theme);
@@ -38,7 +43,7 @@ export default function App() {
   // Todo helpers
   function addTodo(text, description = "") {
     if (!text.trim()) return;
-    setTodos([...todos, { id: Date.now(), text: text.trim(), description: description.trim(), completed: false }]);
+    setTodos([...todos, { id: Date.now(), text: text.trim(), description: description.trim(), completed: false, tags: [] }]);
   }
 
   function toggleTodo(id) {
@@ -57,10 +62,44 @@ export default function App() {
     setTodos(todos.filter((t) => !t.completed));
   }
 
+  // Tag Helpers
+  function addTag(id, tag) {
+    const cleaned = tag.trim().toLowerCase();
+    if (!cleaned || cleaned.length > 25) return;
+  
+    setTodos((prev) =>
+      prev.map((t) => {
+        if (t.id !== id) return t;
+  
+        // prevent duplicates, enforces 5-tag-per-task limit
+        if (t.tags.includes(cleaned) || t.tags.length >= 5) return t;
+  
+        return { ...t, tags: [...t.tags, cleaned] };
+      })
+    );
+  }
+  
+  function removeTag(id, tag) {
+    setTodos((prev) =>
+      prev.map((t) =>
+        t.id === id
+          ? { ...t, tags: t.tags.filter((tg) => tg !== tag) }
+          : t
+      )
+    );
+  }
+
   // Other variables
   const filtered = todos.filter((t) => {
-    if (filter === "active") return !t.completed;
-    if (filter === "completed") return t.completed;
+    // status filter
+    if (filter === "active" && t.completed) return false;
+    if (filter === "completed" && !t.completed) return false;
+  
+    // tag filter
+    if (activeTag && !(t.tags ?? []).includes(activeTag)) {
+      return false;
+    }
+  
     return true;
   });
 
@@ -80,13 +119,14 @@ export default function App() {
 
           <div className="header-bottom">
             <div className="header-buttons">
-              <TodoSettings openSettings={() => setPage(page === "main" ? "settings" : "main")}/>
+              <TodoAbout onClick={() => setPage("about")}/>
+              <TodoSettings openSettings={() => setPage("settings")}/>
             </div>
           </div>
         </header>
         )}
         
-        {page === "main" ? (
+        {page === "main" && (
         <>
           <TodoInput onAdd={addTodo} />
 
@@ -97,6 +137,10 @@ export default function App() {
             onToggle={toggleTodo}
             onDelete={deleteTodo}
             onEdit={editTodo}
+            onAddTag={addTag}
+            onRemoveTag={removeTag}
+            activeTag={activeTag}
+            setActiveTag={setActiveTag}
           />
 
           {todos.some((t) => t.completed) && (
@@ -105,7 +149,13 @@ export default function App() {
             </button>
           )}
         </>
-        ) : (
+        )} 
+        
+        {page === "about" && (
+          <AboutPage goBack={() => setPage("main")} />
+        )}
+
+        {page === "settings" && (
           <SettingsPage
             theme={theme}
             setTheme={setTheme}

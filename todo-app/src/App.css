@@ -541,3 +541,142 @@ body {
   border-color: #5fb3ff;
   box-shadow: 0 0 0 3px rgba(95, 179, 255, 0.1);
 }
+
+/* ================= TAGS ================= */
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.tag {
+  font-size: 10px;
+  padding: 2px 6px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg);
+}
+
+.tag button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1;
+}
+
+.tag button:hover {
+  color: #e53935;
+}
+
+.tag-add-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--line);
+  margin-top: 1px;
+}
+
+.tag-add-btn:hover {
+  color: #e53935;
+}
+
+/* ================= ABOUT ================= */
+
+.about-container {
+  padding: 24px;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+.hero-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.section-subtitle {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+  color: var(--primary);
+}
+
+.feature-list {
+  list-style: none;
+  padding-bottom: 20px;
+  font-size: 12px;
+}
+
+.feature-list li {
+  margin-bottom: 8px;
+  padding-left: 12px;
+  border-left: 2px solid var(--border-color);
+}
+
+.prereq-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.badge-group {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.code-badge {
+  /* Use a light grey that is visible on white, but still looks "code-like" */
+  background: #f4f4f4; 
+  color: #333; /* Dark text for readability */
+  
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  
+  /* A subtle border helps define the shape on white backgrounds */
+  border: 1px solid #ddd;
+  
+  display: inline-block;
+}
+
+.divider {
+  margin: 20px 0;
+  border: 0;
+  border-top: 1px solid var(--border-color);
+  opacity: 0.3;
+}
+
+.team-footer {
+  margin-top: 32px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 16px;
+}
+
+.team-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.team-grid {
+  font-size: 11px;
+  color: var(--muted);
+  display: grid;
+  gap: 4px;
+}
