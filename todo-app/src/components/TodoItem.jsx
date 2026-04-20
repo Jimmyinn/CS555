@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function TodoItem({ todo, onToggle, onDelete, onEdit, onAddTag, onRemoveTag, activeTag, setActiveTag }) {
+export default function TodoItem({ todo, onToggle, onDelete, onEdit, onAddTag, onRemoveTag }) {
     const [isEditing, setIsEditing] = useState(false);
     const [editText, setEditText] = useState(todo.text);
     const [editDescription, setEditDescription] = useState(todo.description);
@@ -87,14 +87,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, onAddTag, o
                 {todo.tags && todo.tags.length > 0 && (
                     <div className="tag-row">
                         {todo.tags.map((tag) => (
-                        <span
-                        key={tag}
-                        className="tag"
-                        onClick={() => 
-                            setActiveTag((prev) => (prev === tag ? null : tag))
-                        }
-                        style={{ cursor: "pointer" }}
-                        >
+                            <span key={tag} className="tag">
                             {tag}
                             <button
                               onClick={(e) => {
