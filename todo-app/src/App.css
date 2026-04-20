@@ -86,7 +86,8 @@ body {
 
 .header-bottom {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
   gap: 12px;
 }
 
@@ -679,4 +680,86 @@ body {
   color: var(--muted);
   display: grid;
   gap: 4px;
+}
+
+/* ================= TAG FILTER BAR ================= */
+
+.tag-filter-bar {
+  position: relative;
+  margin: 0;
+}
+
+.tag-filter-toggle {
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 6px 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s;
+}
+
+.tag-filter-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.tag-dropdown {
+  position: absolute;
+  top: 36px;
+  left: 0;
+  min-width: 180px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: 0 4px 14px var(--shadow);
+  z-index: 20;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  animation: dropdownFade 0.15s ease;
+}
+
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tag-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--ink);
+  cursor: pointer;
+  letter-spacing: 0.05em;
+}
+
+.tag-option input {
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.tag-option:hover {
+  color: var(--accent);
+}
+
+.empty-tags {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-align: center;
+  padding: 6px 0;
 }

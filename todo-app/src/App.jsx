@@ -9,6 +9,8 @@ import TodoAbout from "./components/configBar/TodoAbout";
 import AboutPage from "./components/AboutPage";
 import SettingsPage from "./components/SettingsPage";
 
+import TagFilterBar from "./components/TagFilterBar";
+
 import "./App.css";
 
 export default function App() {
@@ -27,7 +29,12 @@ export default function App() {
   });
 
   // Tag state (Sebastian)
-  const [activeTag, setActiveTag] = useState(null);
+  const [activeTags, setActiveTags] = useState([]);
+
+  // List of all tags
+  const allTags = Array.from(
+    new Set(todos.flatMap((t) => t.tags || []))
+  );
 
   // Browser Data Saves
   useEffect(() => {
@@ -38,6 +45,13 @@ export default function App() {
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
+  // Filter out tags no longer attached to any task items
+  useEffect(() => {
+    setActiveTags((prev) =>
+      prev.filter((tag) => allTags.includes(tag))
+    );
   }, [todos]);
 
   // Todo helpers
@@ -91,13 +105,15 @@ export default function App() {
 
   // Other variables
   const filtered = todos.filter((t) => {
-    // status filter
     if (filter === "active" && t.completed) return false;
     if (filter === "completed" && !t.completed) return false;
   
-    // tag filter
-    if (activeTag && !(t.tags ?? []).includes(activeTag)) {
-      return false;
+    if (activeTags.length > 0) {
+      const tags = t.tags || [];
+
+      const matches = activeTags.every((tag) => tags.includes(tag));
+
+      if (!matches) return false;
     }
   
     return true;
@@ -118,6 +134,12 @@ export default function App() {
           </div>
 
           <div className="header-bottom">
+            <TagFilterBar
+              allTags={allTags}
+              activeTags={activeTags}
+              setActiveTags={setActiveTags}
+            />
+
             <div className="header-buttons">
               <TodoAbout onClick={() => setPage("about")}/>
               <TodoSettings openSettings={() => setPage("settings")}/>
@@ -128,6 +150,7 @@ export default function App() {
         
         {page === "main" && (
         <>
+
           <TodoInput onAdd={addTodo} />
 
           <TodoFilter filter={filter} onFilter={setFilter} />
@@ -139,8 +162,6 @@ export default function App() {
             onEdit={editTodo}
             onAddTag={addTag}
             onRemoveTag={removeTag}
-            activeTag={activeTag}
-            setActiveTag={setActiveTag}
           />
 
           {todos.some((t) => t.completed) && (
