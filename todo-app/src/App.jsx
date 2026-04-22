@@ -57,7 +57,7 @@ export default function App() {
   // Todo helpers
   function addTodo(text, description = "") {
     if (!text.trim()) return;
-    setTodos([...todos, { id: Date.now(), text: text.trim(), description: description.trim(), completed: false, tags: [] }]);
+    setTodos([...todos, { id: Date.now(), text: text.trim(), description: description.trim(), completed: false, tags: [], subtasks : [] }]);
   }
 
   function toggleTodo(id) {
@@ -76,7 +76,7 @@ export default function App() {
     setTodos(todos.filter((t) => !t.completed));
   }
 
-  // Tag Helpers
+  // Tag helpers
   function addTag(id, tag) {
     const cleaned = tag.trim().toLowerCase();
     if (!cleaned || cleaned.length > 25) return;
@@ -98,6 +98,59 @@ export default function App() {
       prev.map((t) =>
         t.id === id
           ? { ...t, tags: t.tags.filter((tg) => tg !== tag) }
+          : t
+      )
+    );
+  }
+
+  // Subtask helpers
+  function addSubtask(todoId, text) {
+    if (!text.trim()) return;
+  
+    setTodos(prev =>
+      prev.map(t => {
+        if (t.id !== todoId) return t;
+  
+        const subtasks = t.subtasks || [];
+  
+        if (subtasks.length >= 10) return t;
+  
+        return {
+          ...t,
+          subtasks: [
+            ...subtasks,
+            { id: Date.now(), text: text.trim(), completed: false }
+          ]
+        };
+      })
+    );
+  }
+  
+  function toggleSubtask(todoId, subId) {
+    setTodos(prev =>
+      prev.map(t =>
+        t.id === todoId
+          ? {
+              ...t,
+              subtasks: t.subtasks.map(st =>
+                st.id === subId
+                  ? { ...st, completed: !st.completed }
+                  : st
+              )
+            }
+          : t
+      )
+    );
+  }
+  
+  function deleteSubtask(todoId, subId) {
+    setTodos(prev =>
+      prev.map(t =>
+        t.id === todoId
+          ? {
+              ...t,
+              subtasks: t.subtasks.filter(st => st.id !== subId)
+            }
           : t
       )
     );
@@ -162,6 +215,9 @@ export default function App() {
             onEdit={editTodo}
             onAddTag={addTag}
             onRemoveTag={removeTag}
+            onAddSubtask={addSubtask}
+            onToggleSubtask={toggleSubtask}
+            onDeleteSubtask={deleteSubtask}
           />
 
           {todos.some((t) => t.completed) && (
