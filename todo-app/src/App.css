@@ -332,6 +332,7 @@ body {
   background: transparent;
   border: none;
   cursor: pointer;
+  margin-top: 0.5px;
 }
 
 .edit-btn:hover {
@@ -584,7 +585,7 @@ body {
   font-size: 16px;
   line-height: 1;
   color: var(--line);
-  margin-top: 1px;
+  margin-top: 2px;
 }
 
 .tag-add-btn:hover {
@@ -762,4 +763,74 @@ body {
   letter-spacing: 0.1em;
   text-align: center;
   padding: 6px 0;
+}
+
+/* ================= Subtasks ================= */
+
+.subtask-list {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.subtask-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.subtask-text.done {
+  text-decoration: line-through;
+  color: var(--line);
+}
+
+.subtask-delete {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--line);
+  font-size: 10px;
+}
+
+.subtask-delete:hover {
+  color: #e53935;
+}
+
+.subtask-add-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--line);
+}
+
+.subtask-add-btn:hover {
+  color: #e53935;
+}
+
+[data-theme="dark"] .subtask-delete {
+  color: var(--ink);
+}
+
+[data-theme="dark"] .subtask-delete:hover {
+  color: #ff6b6b;
+}
+
+.subtask-check {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--line);
+  background: transparent;
+  cursor: pointer;
+  font-size: 10px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--ink);
 }

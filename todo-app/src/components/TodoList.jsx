@@ -1,6 +1,6 @@
 import TodoItem from "./TodoItem.jsx";
 
-export default function TodoList({ todos, onToggle, onDelete, onEdit, onAddTag, onRemoveTag }) {
+export default function TodoList({ todos, onToggle, onDelete, onEdit, onAddTag, onRemoveTag, onAddSubtask, onToggleSubtask, onDeleteSubtask }) {
     if (todos.length === 0) {
         return <p className="empty">Nothing here yet.</p>;
     }
@@ -16,6 +16,9 @@ export default function TodoList({ todos, onToggle, onDelete, onEdit, onAddTag, 
                     onEdit={onEdit}
                     onAddTag={onAddTag}
                     onRemoveTag={onRemoveTag}
+                    onAddSubtask={onAddSubtask}
+                    onToggleSubtask={onToggleSubtask}
+                    onDeleteSubtask={onDeleteSubtask}
                 />
             ))}
         </ul>
