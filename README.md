@@ -5,13 +5,16 @@ A clean and modern task management application built with React and Vite. Stay o
 ## ✨ Features
 
 - **Add Tasks** - Create new tasks with optional descriptions
-- **Task Descriptions** - Add short descriptions to tasks for more context
 - **Mark Complete** - Check off tasks as you complete them
+- **Task Managing** - Edit and delete existing tasks
 - **Filter Views** - Switch between viewing all, active, or completed tasks
+- **Tags & Filter** - Add tags to tasks and filter by one or more tags
 - **Clear Completed** - Quickly remove all finished tasks
+- **Subtasks** - Add subtasks to break larger items into smaller steps
 - **Persistent Storage** - Tasks are automatically saved to your browser's local storage
 - **Active Task Count** - See at a glance how many tasks remain to be done
 - **Responsive Design** - Works seamlessly on desktop and mobile devices
+- **Import & Export** - Export tasks to JSON and import them back later
 
 ## 🚀 Getting Started
 
@@ -46,15 +49,24 @@ The application will be available at `http://localhost:5173` in your browser.
 
 ```
 src/
-├── components/
-│   ├── TodoFilter.jsx    - Filter button component (All/Active/Completed)
-│   ├── TodoInput.jsx     - Input form for adding new tasks
-│   ├── TodoItem.jsx      - Individual task item component
-│   └── TodoList.jsx      - Container for displaying tasks
-├── App.jsx               - Main application component
-├── App.css               - Application styles
-├── main.jsx              - React entry point
-└── index.css             - Global styles
+├── App.jsx
+├── App.css
+├── main.jsx
+├── index.css
+├── assets/
+└── components/
+      ├── AboutPage.jsx
+      ├── SettingsPage.jsx
+      ├── TagFilterBar.jsx
+      ├── TodoFilter.jsx
+      ├── TodoInput.jsx
+      ├── TodoItem.jsx
+      ├── TodoList.jsx
+      └── configBar/
+          ├── TodoAbout.jsx
+          ├── TodoExport.jsx
+          ├── TodoImport.jsx
+          └── TodoSettings.jsx
 ```
 
 ## 🎯 How to Use
