@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-export default function TodoItem({ todo, onToggle, onDelete, onEdit, onAddTag, onRemoveTag, onAddSubtask, onToggleSubtask, onDeleteSubtask  }) {
+export default function TodoItem({ todo, onToggle, onDelete, onEdit, onAddTag, onRemoveTag, onAddSubtask, onToggleSubtask, onDeleteSubtask }) {
     const [isEditing, setIsEditing] = useState(false);
     const [editText, setEditText] = useState(todo.text);
     const [editDescription, setEditDescription] = useState(todo.description);
-    
+
     // Tag state
     const [tagInput, setTagInput] = useState("");
 
@@ -93,56 +93,56 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, onAddTag, o
                     <div className="tag-row">
                         {todo.tags.map((tag) => (
                             <span key={tag} className="tag">
-                            {tag}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onRemoveTag(todo.id, tag);
-                              }}
-                            >
-                              ×
-                            </button>
-                        </span>
+                                {tag}
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        onRemoveTag(todo.id, tag);
+                                    }}
+                                >
+                                    ×
+                                </button>
+                            </span>
                         ))}
                     </div>
                 )}
 
                 {/* SUBTASKS */}
                 {todo.subtasks && todo.subtasks.length > 0 && (
-                <div className="subtask-list">
-                    {todo.subtasks.map((st) => (
-                    <div key={st.id} className="subtask-item">
-                        <button
-                        className="subtask-check"
-                        onClick={() => onToggleSubtask(todo.id, st.id)}
-                        >
-                        {st.completed && "✓"}
-                        </button>
+                    <div className="subtask-list">
+                        {todo.subtasks.map((st) => (
+                            <div key={st.id} className="subtask-item">
+                                <button
+                                    className="subtask-check"
+                                    onClick={() => onToggleSubtask(todo.id, st.id)}
+                                >
+                                    {st.completed && "✓"}
+                                </button>
 
-                        <span className={`subtask-text ${st.completed ? "done" : ""}`}>
-                        {st.text}
-                        </span>
+                                <span className={`subtask-text ${st.completed ? "done" : ""}`}>
+                                    {st.text}
+                                </span>
 
-                        <button
-                        className="subtask-delete"
-                        onClick={() => onDeleteSubtask(todo.id, st.id)}
-                        >
-                        ×
-                        </button>
+                                <button
+                                    className="subtask-delete"
+                                    onClick={() => onDeleteSubtask(todo.id, st.id)}
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        ))}
                     </div>
-                    ))}
-                </div>
                 )}
             </div>
-            
+
             <button
                 className="subtask-add-btn"
                 onClick={() =>
                     setActiveEditor(prev =>
-                      prev === "subtask" ? null : "subtask"
+                        prev === "subtask" ? null : "subtask"
                     )
                 }
-                >
+            >
                 {activeEditor === "subtask" ? "×" : "☰"}
             </button>
 
@@ -150,7 +150,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, onAddTag, o
                 className={`tag-add-btn ${activeEditor === "tag" ? "is-adding" : ""}`}
                 onClick={() =>
                     setActiveEditor(prev =>
-                      prev === "tag" ? null : "tag"
+                        prev === "tag" ? null : "tag"
                     )
                 }
                 title={activeEditor === "tag" ? "Cancel" : "Add tag"}
@@ -196,25 +196,25 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, onAddTag, o
             )}
 
             {activeEditor == "subtask" && (
-            <form
-                onSubmit={(e) => {
-                e.preventDefault();
-                onAddSubtask(todo.id, subtaskInput);
-                setSubtaskInput("");
-                setActiveEditor(null);
-                }}
-                style={{ marginTop: "8px", width: "100%" }}
-            >
-                <input
-                className="edit-input"
-                value={subtaskInput}
-                onChange={(e) => setSubtaskInput(e.target.value)}
-                placeholder="add subtask..."
-                autoFocus
-                />
-            </form>
-            )} 
-            
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        onAddSubtask(todo.id, subtaskInput);
+                        setSubtaskInput("");
+                        setActiveEditor(null);
+                    }}
+                    style={{ marginTop: "8px", width: "100%" }}
+                >
+                    <input
+                        className="edit-input"
+                        value={subtaskInput}
+                        onChange={(e) => setSubtaskInput(e.target.value)}
+                        placeholder="add subtask..."
+                        autoFocus
+                    />
+                </form>
+            )}
+
         </li>
     );
 }

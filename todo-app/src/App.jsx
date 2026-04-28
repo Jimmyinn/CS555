@@ -23,7 +23,7 @@ export default function App() {
   const [filter, setFilter] = useState("all");
 
   // Additional state (Sebastian)
-  const [page, setPage] = useState(() => {return "main";});
+  const [page, setPage] = useState(() => { return "main"; });
 
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem("theme") || "light";
@@ -40,7 +40,7 @@ export default function App() {
   // Browser Data Saves
   useEffect(() => {
     localStorage.setItem("theme", theme);
-  
+
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
@@ -58,7 +58,7 @@ export default function App() {
   // Todo helpers
   function addTodo(text, description = "") {
     if (!text.trim()) return;
-    setTodos([...todos, { id: Date.now(), text: text.trim(), description: description.trim(), completed: false, tags: [], subtasks : [] }]);
+    setTodos([...todos, { id: Date.now(), text: text.trim(), description: description.trim(), completed: false, tags: [], subtasks: [] }]);
   }
 
   function toggleTodo(id) {
@@ -81,19 +81,19 @@ export default function App() {
   function addTag(id, tag) {
     const cleaned = tag.trim().toLowerCase();
     if (!cleaned || cleaned.length > 25) return;
-  
+
     setTodos((prev) =>
       prev.map((t) => {
         if (t.id !== id) return t;
-  
+
         // prevent duplicates, enforces 5-tag-per-task limit
         if (t.tags.includes(cleaned) || t.tags.length >= 5) return t;
-  
+
         return { ...t, tags: [...t.tags, cleaned] };
       })
     );
   }
-  
+
   function removeTag(id, tag) {
     setTodos((prev) =>
       prev.map((t) =>
@@ -107,15 +107,15 @@ export default function App() {
   // Subtask helpers
   function addSubtask(todoId, text) {
     if (!text.trim()) return;
-  
+
     setTodos(prev =>
       prev.map(t => {
         if (t.id !== todoId) return t;
-  
+
         const subtasks = t.subtasks || [];
-  
+
         if (subtasks.length >= 10) return t;
-  
+
         return {
           ...t,
           subtasks: [
@@ -126,32 +126,32 @@ export default function App() {
       })
     );
   }
-  
+
   function toggleSubtask(todoId, subId) {
     setTodos(prev =>
       prev.map(t =>
         t.id === todoId
           ? {
-              ...t,
-              subtasks: t.subtasks.map(st =>
-                st.id === subId
-                  ? { ...st, completed: !st.completed }
-                  : st
-              )
-            }
+            ...t,
+            subtasks: t.subtasks.map(st =>
+              st.id === subId
+                ? { ...st, completed: !st.completed }
+                : st
+            )
+          }
           : t
       )
     );
   }
-  
+
   function deleteSubtask(todoId, subId) {
     setTodos(prev =>
       prev.map(t =>
         t.id === todoId
           ? {
-              ...t,
-              subtasks: t.subtasks.filter(st => st.id !== subId)
-            }
+            ...t,
+            subtasks: t.subtasks.filter(st => st.id !== subId)
+          }
           : t
       )
     );
@@ -161,7 +161,7 @@ export default function App() {
   const filtered = todos.filter((t) => {
     if (filter === "active" && t.completed) return false;
     if (filter === "completed" && !t.completed) return false;
-  
+
     if (activeTags.length > 0) {
       const tags = t.tags || [];
 
@@ -169,7 +169,7 @@ export default function App() {
 
       if (!matches) return false;
     }
-  
+
     return true;
   });
 
@@ -180,62 +180,62 @@ export default function App() {
     <div className="app">
       <div className="container">
         {page === "main" && (
-        <header className="header">
-          <div className="header-top">
-            <span className="header-tag">YOUR</span>
-            <h1 className="title">TASKS</h1>
-            <span className="header-count">{activeCount} remaining</span>
-          </div>
+          <header className="header">
+            <div className="header-top">
+              <span className="header-tag">YOUR</span>
+              <h1 className="title">TASKS</h1>
+              <span className="header-count">{activeCount} remaining</span>
+            </div>
 
-          <div className="header-bottom">
-            <TagFilterBar
-              allTags={allTags}
-              activeTags={activeTags}
-              setActiveTags={setActiveTags}
+            <div className="header-bottom">
+              <TagFilterBar
+                allTags={allTags}
+                activeTags={activeTags}
+                setActiveTags={setActiveTags}
+              />
+
+              <div className="header-buttons">
+                <TodoAbout onClick={() => setPage("about")} />
+                <TodoSettings openSettings={() => setPage("settings")} />
+              </div>
+            </div>
+          </header>
+        )}
+
+        {page === "main" && (
+          <>
+
+            <TodoInput onAdd={addTodo} />
+
+            <TodoFilter filter={filter} onFilter={setFilter} />
+
+            <TodoList
+              todos={filtered}
+              onToggle={toggleTodo}
+              onDelete={deleteTodo}
+              onEdit={editTodo}
+              onAddTag={addTag}
+              onRemoveTag={removeTag}
+              onAddSubtask={addSubtask}
+              onToggleSubtask={toggleSubtask}
+              onDeleteSubtask={deleteSubtask}
             />
 
-            <div className="header-buttons">
-              <TodoAbout onClick={() => setPage("about")}/>
-              <TodoSettings openSettings={() => setPage("settings")}/>
-            </div>
-          </div>
-        </header>
-        )}
-        
-        {page === "main" && (
-        <>
-
-          <TodoInput onAdd={addTodo} />
-
-          <TodoFilter filter={filter} onFilter={setFilter} />
-
-          <TodoList
-            todos={filtered}
-            onToggle={toggleTodo}
-            onDelete={deleteTodo}
-            onEdit={editTodo}
-            onAddTag={addTag}
-            onRemoveTag={removeTag}
-            onAddSubtask={addSubtask}
-            onToggleSubtask={toggleSubtask}
-            onDeleteSubtask={deleteSubtask}
-          />
-
-          {todos.some((t) => t.completed) && (
-            <button className="clear-btn" onClick={clearCompleted}>
-              Clear completed
-            </button>
-          )}
-          <button 
-              className="help-fab" 
+            {todos.some((t) => t.completed) && (
+              <button className="clear-btn" onClick={clearCompleted}>
+                Clear completed
+              </button>
+            )}
+            <button
+              className="help-fab"
               onClick={() => setPage("tutorial")}
               title="Help & Tutorial"
             >
               ?
             </button>
-        </>
-        )} 
-        
+          </>
+        )}
+
         {page === "about" && (
           <AboutPage goBack={() => setPage("main")} />
         )}
@@ -248,9 +248,9 @@ export default function App() {
             todos={todos}
             setTodos={setTodos}
           />
-      )}
-      
-      {page === "tutorial" && (
+        )}
+
+        {page === "tutorial" && (
           <TutorialPage goBack={() => setPage("main")} />
         )}
       </div>

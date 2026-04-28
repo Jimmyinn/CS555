@@ -12,8 +12,8 @@ export default function AboutPage({ goBack }) {
       <div className="settings-card about-container">
         <section className="about-hero">
           <p className="hero-text">
-            A minimalistic and modern to-do webpage that beats out competitors. 
-            Enjoy a small learning curve while being able to use advanced features that 
+            A minimalistic and modern to-do webpage that beats out competitors.
+            Enjoy a small learning curve while being able to use advanced features that
             work seamlessly across all your devices.
           </p>
         </section>

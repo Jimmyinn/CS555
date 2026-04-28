@@ -10,6 +10,7 @@
   --muted: #78a9c8;
   --line: #c5dff0;
   --done: #a0bfd4;
+  --danger: #e53935;
   --shadow: rgba(33, 150, 243, 0.10);
 }
 
@@ -91,7 +92,7 @@ body {
   gap: 12px;
 }
 
-.header-buttons button {
+:is(.header-buttons button, .settings-buttons button, .tag-filter-toggle) {
   background: transparent;
   border: 1px solid var(--line);
   padding: 6px 12px;
@@ -104,7 +105,9 @@ body {
   transition: all 0.15s;
 }
 
-.header-buttons button:hover {
+.header-buttons button:hover,
+.settings-buttons button:hover,
+.tag-filter-toggle:hover {
   color: var(--accent);
   border-color: var(--accent);
 }
@@ -325,7 +328,7 @@ body {
 }
 
 .delete-btn:hover {
-  color: #e53935;
+  color: var(--danger);
 }
 
 .edit-btn {
@@ -352,24 +355,7 @@ body {
   gap: 12px;
 }
 
-.edit-input {
-  padding: 10px 12px;
-  background: var(--bg);
-  border: 1px solid var(--accent-light);
-  border-radius: 2px;
-  outline: none;
-  font-family: 'DM Mono', monospace;
-  font-size: 13px;
-  color: var(--ink);
-  letter-spacing: 0.02em;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.edit-input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
-}
-
+.edit-input,
 .edit-textarea {
   padding: 10px 12px;
   background: var(--bg);
@@ -385,6 +371,11 @@ body {
   line-height: 1.6;
 }
 
+.edit-input {
+  font-size: 13px;
+}
+
+.edit-input:focus,
 .edit-textarea:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
@@ -459,8 +450,8 @@ body {
 }
 
 .clear-btn:hover {
-  border-color: #e53935;
-  color: #e53935;
+  border-color: var(--danger);
+  color: var(--danger);
 }
 
 /* Settings Page */
@@ -482,24 +473,47 @@ body {
 .settings-buttons {
   display: flex;
   gap: 8px;
+  align-items: flex-start;
 }
 
-.settings-buttons button {
-  background: transparent;
+.settings-import {
+  display: flex;
+  align-items: flex-start;
+}
+
+.settings-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 1100;
+}
+
+.settings-modal {
+  width: min(100%, 420px);
+  padding: 28px 32px;
   border: 1px solid var(--line);
-  padding: 6px 12px;
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-  cursor: pointer;
-  border-radius: 2px;
-  transition: all 0.15s;
+  border-radius: 4px;
+  background: var(--surface);
+  box-shadow: 0 10px 30px var(--shadow);
 }
 
-.settings-buttons button:hover {
-  color: var(--accent);
-  border-color: var(--accent);
+.settings-modal p {
+  margin: 0;
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--danger);
+}
+
+.settings-warning-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  justify-content: center;
 }
 
 .help-fab {
@@ -571,6 +585,7 @@ body {
 [data-theme="dark"] .todo-item.completed {
   background: #0c1822;
 }
+
 [data-theme="dark"] .edit-input,
 [data-theme="dark"] .edit-textarea {
   background: #0f1f2b;
@@ -615,10 +630,11 @@ body {
 }
 
 .tag button:hover {
-  color: #e53935;
+  color: var(--danger);
 }
 
-.tag-add-btn {
+.tag-add-btn,
+.subtask-add-btn {
   background: transparent;
   border: none;
   cursor: pointer;
@@ -626,10 +642,12 @@ body {
   line-height: 1;
   color: var(--line);
   margin-top: 2px;
+  color: var(--line);
 }
 
-.tag-add-btn:hover {
-  color: #e53935;
+.tag-add-btn:hover,
+.subtask-add-btn:hover {
+  color: var(--danger);
 }
 
 /* ================= ABOUT ================= */
@@ -643,7 +661,7 @@ body {
 .hero-text {
   font-size: 14px;
   font-weight: 500;
-  color: var(--foreground);
+  color: var(--ink);
 }
 
 .section-subtitle {
@@ -651,7 +669,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 12px;
-  color: var(--primary);
+  color: var(--accent);
 }
 
 .feature-list {
@@ -663,7 +681,7 @@ body {
 .feature-list li {
   margin-bottom: 8px;
   padding-left: 12px;
-  border-left: 2px solid var(--border-color);
+  border-left: 2px solid var(--line);
 }
 
 .prereq-section {
@@ -682,30 +700,31 @@ body {
 
 .code-badge {
   /* Use a light grey that is visible on white, but still looks "code-like" */
-  background: #f4f4f4; 
-  color: #333; /* Dark text for readability */
-  
+  background: #f4f4f4;
+  color: #333;
+  /* Dark text for readability */
+
   padding: 6px 12px;
   border-radius: 6px;
   font-family: 'Courier New', Courier, monospace;
   font-size: 13px;
-  
+
   /* A subtle border helps define the shape on white backgrounds */
   border: 1px solid #ddd;
-  
+
   display: inline-block;
 }
 
 .divider {
   margin: 20px 0;
   border: 0;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--line);
   opacity: 0.3;
 }
 
 .team-footer {
   margin-top: 32px;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--line);
   padding-top: 16px;
 }
 
@@ -728,24 +747,6 @@ body {
 .tag-filter-bar {
   position: relative;
   margin: 0;
-}
-
-.tag-filter-toggle {
-  background: transparent;
-  border: 1px solid var(--line);
-  padding: 6px 12px;
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-  cursor: pointer;
-  border-radius: 2px;
-  transition: all 0.15s;
-}
-
-.tag-filter-toggle:hover {
-  color: var(--accent);
-  border-color: var(--accent);
 }
 
 .tag-dropdown {
@@ -772,6 +773,7 @@ body {
     opacity: 0;
     transform: translateY(-4px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -836,20 +838,7 @@ body {
 }
 
 .subtask-delete:hover {
-  color: #e53935;
-}
-
-.subtask-add-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  line-height: 1;
-  color: var(--line);
-}
-
-.subtask-add-btn:hover {
-  color: #e53935;
+  color: var(--danger);
 }
 
 [data-theme="dark"] .subtask-delete {
@@ -867,7 +856,7 @@ body {
   background: transparent;
   cursor: pointer;
   font-size: 10px;
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
