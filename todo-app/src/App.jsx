@@ -10,6 +10,7 @@ import AboutPage from "./components/AboutPage";
 import SettingsPage from "./components/SettingsPage";
 
 import TagFilterBar from "./components/TagFilterBar";
+import TutorialPage from "./components/TutorialPage";
 
 import "./App.css";
 
@@ -225,6 +226,13 @@ export default function App() {
               Clear completed
             </button>
           )}
+          <button 
+              className="help-fab" 
+              onClick={() => setPage("tutorial")}
+              title="Help & Tutorial"
+            >
+              ?
+            </button>
         </>
         )} 
         
@@ -241,6 +249,10 @@ export default function App() {
             setTodos={setTodos}
           />
       )}
+      
+      {page === "tutorial" && (
+          <TutorialPage goBack={() => setPage("main")} />
+        )}
       </div>
     </div>
   );
