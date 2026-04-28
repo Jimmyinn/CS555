@@ -1,5 +1,5 @@
 export default function ToDoAbout({ onClick }) {
-    return(
+    return (
         <button onClick={onClick}>About</button>
     )
 }
