@@ -77,10 +77,10 @@ body {
 }
 
 .header-top {
+  position: relative;
   display: flex;
   align-items: baseline;
   justify-content: center;
-  gap: 16px;
   border-bottom: 3px solid var(--accent);
   margin-bottom: 16px;
 }
