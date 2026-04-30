@@ -67,6 +67,7 @@ body {
   letter-spacing: 0.04em;
   color: var(--ink);
   flex: 1;
+  text-align: center;
 }
 
 .header-count {
