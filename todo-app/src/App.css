@@ -79,7 +79,7 @@ body {
 .header-top {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
+  justify-content: center;
   gap: 16px;
   border-bottom: 3px solid var(--accent);
   margin-bottom: 16px;
